@@ -1,8 +1,13 @@
 .App {
   display: block;
   padding: 20px;
+  margin:0 auto;
 }
 
 .error {
   color: red;
+}
+
+.label-gap{
+  margin-top:1rem;
 }
