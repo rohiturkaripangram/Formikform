@@ -2,16 +2,17 @@ import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormikControl from "./FormikControl";
+import Button from 'react-bootstrap/Button'
 
 const Registration = () => {
   const dropdownOptions = [
+   {
+    key:'Select an option',
+    value:'Select an option'
+   },
     {
-      key: "Select an Option",
-      value: "Select an option",
-    },
-    {
-      key: "java",
-      value: "java",
+      key: "Java",
+      value: "Java",
     },
     {
       key: "C",
@@ -139,7 +140,9 @@ const Registration = () => {
             />
           </div>
 
-          <button type="submit">Submit</button>
+
+          <Button type="reset" variant="dark">Reset</Button>{' '}
+          <Button type="submit" variant="success">Submit</Button>{' '}
         </Form>
       )}
     </Formik>
