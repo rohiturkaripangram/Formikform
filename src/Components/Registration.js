@@ -89,8 +89,7 @@ const Registration = () => {
         <Form>
           <div className='maindiv'>
 
-            <div style={{display:"flex", gap:"1rem", flexWrap:'wrap'
-          }}>
+            <div className='inputDiv'>
             <FormikControl
               control="input"
               type="text"

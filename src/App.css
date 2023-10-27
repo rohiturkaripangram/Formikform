@@ -17,6 +17,8 @@ label {
   max-width: 100%; 
 }
 
+
+
 input[type='text'],
 input[type='email'],
 input[type='password'],
@@ -33,6 +35,11 @@ select {
   margin-bottom: 10px; 
 }
 
+.inputDiv{
+  display:flex;
+  gap:1rem;
+  flex-wrap:'wrap';
+}
 
 .form-control {
   margin-bottom: 20px;
