@@ -58,8 +58,8 @@ const Registration = () => {
     description: "",
     selectOption: "",
     radioOption: "",
-    checkboxOption:[],
-    birthDate: '',
+    checkboxOption: [],
+    birthDate: "",
   };
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -70,8 +70,8 @@ const Registration = () => {
     selectOption: Yup.string().required("Select is required"),
     radioOption: Yup.string().required("Required"),
     checkboxOption: Yup.array()
-    .min(1, "Select at least one option")
-    .required("Rquired"),
+      .min(1, "Select at least one option")
+      .required("Rquired"),
     birthDate: Yup.date().required("DOB is required").nullable(),
   });
 
@@ -87,46 +87,58 @@ const Registration = () => {
     >
       {(formik) => (
         <Form>
-          <FormikControl control="input" type="text" label="Name" name="name" />
+          <div className='maindiv'>
 
-          <FormikControl
-            control="input"
-            type="email"
-            label="Email"
-            name="email"
-          />
+            <div style={{display:"flex", gap:"1rem", flexWrap:'wrap'
+          }}>
+            <FormikControl
+              control="input"
+              type="text"
+              label="Name"
+              name="name"
+            />
 
-          <FormikControl
-            control="textarea"
-            label="description"
-            name="description"
-          />
-          <FormikControl
-            control="radio"
-            label="Gender"
-            name="radioOption"
-            options={radioOptions}
-          />
+            <FormikControl
+              control="input"
+              type="email"
+              label="Email"
+              name="email"
+            />
+            </div>
+           
 
-          <FormikControl
-            control="select"
-            label="Select a language"
-            name="selectOption"
-            options={dropdownOptions}
-          />
+            <FormikControl
+              control="textarea"
+              label="description"
+              name="description"
+            />
+            <FormikControl
+              control="radio"
+              label="Gender"
+              name="radioOption"
+              options={radioOptions}
+            />
 
-          <FormikControl
-            control="checkbox"
-            label="Checkbox your Education"
-            name="checkboxOption"
-            options={checkboxOptions}
-          />
+            <FormikControl
+              control="select"
+              label="Select a language"
+              name="selectOption"
+              options={dropdownOptions}
+            />
 
-          <FormikControl
-            control="date"
-            label="Select a birthdate"
-            name="birthDate"
-          />
+            <FormikControl
+              control="checkbox"
+              label="Education"
+              name="checkboxOption"
+              options={checkboxOptions}
+            />
+
+            <FormikControl
+              control="date"
+              label="Select a birthdate"
+              name="birthDate"
+            />
+          </div>
 
           <button type="submit">Submit</button>
         </Form>
