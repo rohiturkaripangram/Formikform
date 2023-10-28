@@ -13,6 +13,9 @@ const initialValues = {
   phone: "",
   description:'',
   addressLine1:'',
+  city:'',
+  state:'',
+  country:'',
   arrivealDate: '',
   departureDate: '',
   termsOfService: false
@@ -26,7 +29,6 @@ const validationSchema = Yup.object({
   phone:Yup.number().required('Required'),
   description:Yup.string().required('Required'),
   addressLine1:Yup.string().required('Required'),
-  
   city:Yup.string().required('Required'),
   state:Yup.string().required('Required'),
   country:Yup.string().required('Required'),
@@ -47,7 +49,7 @@ const App = () => {
     <Grid container>
      
       <Grid item xs={12}>
-        <Container maxWidth="md">
+        <Container maxWidth="sm">
           <div>
             <Formik
               initialValues={initialValues}
