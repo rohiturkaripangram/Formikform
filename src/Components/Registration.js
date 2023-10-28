@@ -1,152 +1,200 @@
 import React from "react";
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import FormikControl from "./FormikControl";
-import Button from 'react-bootstrap/Button'
+import { Formik, Form, Field } from "formik";
 
-const Registration = () => {
-  const dropdownOptions = [
-   {
-    key:'Select an option',
-    value:'Select an option'
-   },
-    {
-      key: "Java",
-      value: "Java",
-    },
-    {
-      key: "C",
-      value: "C",
-    },
-    {
-      key: "JavaScript",
-      value: "javaScript",
-    },
-  ];
-  const radioOptions = [
-    {
-      key: "Male",
-      value: "Male",
-    },
-    {
-      key: "Female",
-      value: "Female",
-    },
-    {
-      key: "Other",
-      value: "Other",
-    },
-  ];
+import FormikControl from "./FormikControl"
+import Countries from "../Database/Countries.json"
 
-  const checkboxOptions = [
-    {
-      key: "BE",
-      value: "BE",
-    },
-    {
-      key: "BCA",
-      value: "BCA",
-    },
-    {
-      key: "12th",
-      value: "12th",
-    },
-  ];
+import { Container, Grid, Typography,Button } from "@mui/material";
+const initialValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  description:'',
+  addressLine1:'',
+  arrivealDate: '',
+  departureDate: '',
+  termsOfService: false
 
-  const initialValues = {
-    email: "",
-    name: "",
-    description: "",
-    selectOption: "",
-    radioOption: "",
-    checkboxOption: [],
-    birthDate: "",
-  };
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("Enter the correct email")
-      .required("Email is required"),
-    name: Yup.string().required("The name is required"),
-    description: Yup.string().required("The description is required"),
-    selectOption: Yup.string().required("Select is required"),
-    radioOption: Yup.string().required("Required"),
-    checkboxOption: Yup.array()
-      .min(1, "Select at least one option")
-      .required("Rquired"),
-    birthDate: Yup.date().required("DOB is required").nullable(),
-  });
+  
+};
+const validationSchema = Yup.object({
+  firstName: Yup.string().required("Required"),
+  lastName: Yup.string().required("Required"),
+  email: Yup.string().required("Inavlid Email").required("Email is Required"),
+  phone:Yup.number().required('Required'),
+  description:Yup.string().required('Required'),
+  addressLine1:Yup.string().required('Required'),
+  
+  city:Yup.string().required('Required'),
+  state:Yup.string().required('Required'),
+  country:Yup.string().required('Required'),
+  arrivealDate: Yup.date()
+    .required('Required'),
+  departureDate: Yup.date()
+    .required('Required'),
+    termsOfService: Yup.boolean()
+    .oneOf([true], 'The terms and conditions must be accepted.')
+    .required('The terms and conditions must be accepted.'),
+});
 
-  const onSubmit = (values) => {
-    console.log(values);
-  };
-
+const onSubmit = (values) => {
+  console.log(values);
+};
+const App = () => {
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {(formik) => (
-        <Form>
-          <div className='maindiv'>
+    <Grid container>
+     
+      <Grid item xs={12}>
+        <Container maxWidth="md">
+          <div>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={onSubmit}
+            >
+              <Form>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography>Your Details</Typography>
+                  </Grid>
 
-            <div className='inputDiv'>
-            <FormikControl
-              control="input"
-              type="text"
-              label="Name"
-              name="name"
-            />
+                  <Grid item xs={6}>
+                    <FormikControl
+                      control="input"
+                      name="firstName"
+                      label="First Name"
+                      type="text"
+                    />
+                  </Grid>
 
-            <FormikControl
-              control="input"
-              type="email"
-              label="Email"
-              name="email"
-            />
-            </div>
-           
+                  <Grid item xs={6}>
+                    <FormikControl
+                      control="input"
+                      name="lastName"
+                      label="Last Name"
+                      type="text"
+                    />
+                  </Grid>
 
-            <FormikControl
-              control="textarea"
-              label="description"
-              name="description"
-            />
-            <FormikControl
-              control="radio"
-              label="Gender"
-              name="radioOption"
-              options={radioOptions}
-            />
+                  <Grid item xs={6}>
+                    <FormikControl
+                      control="input"
+                      name="email"
+                      label="email"
+                      type="email"
+                    />
+                  </Grid>
 
-            <FormikControl
-              control="select"
-              label="Select a language"
-              name="selectOption"
-              options={dropdownOptions}
-            />
+                  <Grid item xs={6}>
+                    <FormikControl
+                      control="input"
+                      name="phone"
+                      label="phone"
+                      type="text"
+                    />
+                  </Grid>
 
-            <FormikControl
-              control="checkbox"
-              label="Education"
-              name="checkboxOption"
-              options={checkboxOptions}
-            />
+                  <Grid item xs={12}>
+                    <FormikControl
+                      control="textarea"
+                      name="description"
+                      label="About "
+                      
+                    />
+                  </Grid>
 
-            <FormikControl
-              control="date"
-              label="Select a birthdate"
-              name="birthDate"
-            />
+                  <Grid item xs={12}>
+                    <Typography>Your Address</Typography>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <FormikControl
+                      control="input"
+                      name="addressLine1"
+                      label="AddressLine 1 "
+                      
+                    />
+                  </Grid>
+
+                
+                  <Grid item xs={6}>
+                    <FormikControl
+                       control="input"
+                       name="city"
+                       label="city"
+                      
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormikControl
+                       control="input"
+                       name="state"
+                       label="State"
+                      
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <FormikControl
+                       control="select"
+                       name="country"
+                       label="country"
+                       options={Countries}
+                      
+                    />
+                  </Grid>
+
+
+                  <Grid item xs={12}>
+                    <Typography>
+                      Booking 
+                    </Typography>
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormikControl
+                      control="date"
+                      name="arrivealDate"
+                      label="Arrival Date"
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormikControl
+                     control="date"
+                      name="departureDate"
+                      label="Departure Date"
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <FormikControl
+                    control='checkbox'
+                      name="termsOfService"
+                      legend="Terms Of Service"
+                      label="I agree to term and service"
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <button type='submit'>
+                      Submit Form
+                    </button>
+                  </Grid>
+
+
+                  
+                </Grid>
+              </Form>
+            </Formik>
           </div>
-
-
-          <Button type="reset" variant="dark">Reset</Button>{' '}
-          <Button type="submit" variant="success">Submit</Button>{' '}
-        </Form>
-      )}
-    </Formik>
+        </Container>
+      </Grid>
+    </Grid>
   );
 };
 
-export default Registration;
+export default App;

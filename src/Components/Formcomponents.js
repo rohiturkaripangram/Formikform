@@ -1,140 +1,168 @@
-import React from "react";
-import TextError from "./TextError";
-import { Formik, Field, ErrorMessage } from "formik";
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  RadioGroup,
-  TextField,
-  Button,
-  Grid,
-  MenuItem,
-  Radio,
-  FormControlLabel,
-  Checkbox,
-} from "@mui/material";
+import React from 'react';
+import { TextField,MenuItem,  Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormGroup,
+    FormLabel  } from "@mui/material"
+import { useField,useFormikContext } from 'formik';
 
-const componentMargin = {
-  marginBottom: "15px",
-};
+export const Input = ({
+  name,
+  ...otherProps
+}) => {
+  const [field, mata] = useField(name);
 
-export const Input = ({ label, name, ...rest }) => {
+  const configTextfield = {
+    ...field,
+    ...otherProps,
+    fullWidth: true,
+    variant: 'outlined'
+  };
+
+  if (mata && mata.touched && mata.error) {
+    configTextfield.error = true;
+    configTextfield.helperText = mata.error;
+  }
+
   return (
-    <div style={componentMargin}>
-      <InputLabel>{label}</InputLabel>
-      <FormControl fullWidth>
-        <Field
-          id={name}
-          name={name}
-          {...rest}
-          as={TextField}
-          placeholder={`Enter ${label}`}
-        />
-        <ErrorMessage name={name} component={TextError} />
-      </FormControl>
-    </div>
+    <TextField {...configTextfield} />
   );
 };
 
-export const Textarea = ({ label, name, ...rest }) => {
-  return (
-    <div style={componentMargin}>
-      <InputLabel>{label}</InputLabel>
-      <FormControl fullWidth>
-        <Field
-          id={name}
-          name={name}
-          {...rest}
-          as={TextField}
-          multiline
-          rows={4}
-          placeholder={`Enter ${label}`}
-        />
-        <ErrorMessage name={name} component={TextError} />
-      </FormControl>
-    </div>
-  );
-};
 
-export const Radiocomp = ({ label, name, options, ...rest }) => {
-  return (
-    <div style={componentMargin}>
-      <InputLabel>{label}</InputLabel>
-      <FormControl component="fieldset">
-        <Field id={name} name={name} {...rest}>
-          {({ field }) => (
-            <RadioGroup {...field} name={name} >
-              {options.map((item) => (
-                <FormControlLabel
-                  key={item.value}
-                  value={item.value}
-                  control={<Radio />}
-                  label={item.key}
-                />
-              ))}
-            </RadioGroup>
-          )}
-        </Field>
-        <ErrorMessage name={name} component={TextError} />
-      </FormControl>
-    </div>
-  );
-};
+export const Textarea = ({
+    name,
+    ...otherProps
+  }) => {
+    const [field, meta] = useField(name);
+  
+    const configTextarea = {
+      ...field,
+      ...otherProps,
+      fullWidth: true,
+      variant: 'outlined',
+      multiline: true, 
+      rows: 3, 
+    };
+  
+    if (meta && meta.touched && meta.error) {
+      configTextarea.error = true;
+      configTextarea.helperText = meta.error;
+    }
+  
+    return (
+      <TextField {...configTextarea} />
+    );
+  };
+  
+  
+  export const DateTimePicker = ({
+    name,
+    ...otherProps
+  }) => {
+    const [field, meta] = useField(name);
+  
+    const configDateTimePicker = {
+      ...field,
+      ...otherProps,
+      type: 'date',
+      variant: 'outlined',
+      fullWidth: true,
+      InputLabelProps: {
+        shrink: true
+      }
+    };
+  
+    if(meta && meta.touched && meta.error) {
+      configDateTimePicker.error = true;
+      configDateTimePicker.helperText = meta.error;
+    }
+  
+    return (
+      <TextField
+        {...configDateTimePicker}
+      />
+    );
+  };
 
-export const Checkboxcomp = ({ label, name, options, ...rest }) => {
-  return (
-    <div style={componentMargin}>
-      <InputLabel>{label}</InputLabel>
-      <FormControl component="fieldset">
-        <Field name={name} {...rest}>
-          {({ field }) => (
-            <div >
-              {options.map((item) => (
-                <FormControlLabel
-                  key={item.value}
-                  control={
-                    <Checkbox
-                      checked={field.value.includes(item.value)}
-                      onChange={(e) => {
-                        const newValue = [...field.value];
-                        if (e.target.checked) {
-                          newValue.push(item.value);
-                        } else {
-                          newValue.splice(newValue.indexOf(item.value), 1);
-                        }
-                        field.onChange({
-                          target: { name: name, value: newValue },
-                        });
-                      }}
-                    />
-                  }
-                  label={item.key}
-                />
-              ))}
-            </div>
-          )}
-        </Field>
-        <ErrorMessage name={name} component={TextError} />
-      </FormControl>
-    </div>
-  );
-};
 
-export const Selectcomp = ({ label, name, options, ...rest }) => {
-  return (
-    <div style={componentMargin}>
-      <InputLabel>{label}</InputLabel>
-      <FormControl fullWidth>
-        <Field name={name} {...rest} as={Select}>
-          {options.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.key}
+export const Selectcomp= ({
+    name,
+    options,
+    ...rest
+  }) => {
+    const { setFieldValue } = useFormikContext();
+    const [field, meta] = useField(name);
+  
+    const handleChange = evt => {
+      const { value } = evt.target;
+      setFieldValue(name, value);
+    };
+  
+    const configSelect = {
+      ...field,
+      ...rest,
+      select: true,
+      variant: 'outlined',
+      fullWidth: true,
+      onChange: handleChange
+    };
+  
+    if (meta && meta.touched && meta.error) {
+      configSelect.error = true;
+      configSelect.helperText = meta.error;
+    }
+  
+    return (
+      <TextField {...configSelect}>
+        {Object.keys(options).map((item, pos) => {
+          return (
+            <MenuItem key={pos} value={item}>
+              {options[item]}
             </MenuItem>
-          ))}
-        </Field>
-        <ErrorMessage name={name} component={TextError} />
+          )
+        })}
+      </TextField>
+    );
+  };
+
+  export const CheckboxWrapper = ({
+    name,
+    label,
+    legend,
+    ...otherProps
+  }) => {
+    const { setFieldValue } = useFormikContext();
+    const [field, meta] = useField(name);
+  
+    const handleChange = evt => {
+      const { checked } = evt.target;
+      setFieldValue(name, checked);
+    };
+  
+    const configCheckbox = {
+      ...field,
+      onChange: handleChange
+    };
+  
+    const configFormControl = {};
+    if (meta && meta.touched && meta.error) {
+      configFormControl.error = true;
+    }
+  
+    return (
+      <FormControl {...configFormControl}>
+        <FormLabel component="legend">{legend}</FormLabel>
+        <FormGroup>
+          <FormControlLabel
+            control={<Checkbox {...configCheckbox} />}
+            label={label}
+          />
+        </FormGroup>
       </FormControl>
-    </div>
-  );
-};
+    );
+  };
+  
+ 
+
+
