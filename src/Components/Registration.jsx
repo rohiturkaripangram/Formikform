@@ -1,42 +1,41 @@
-import React from "react";
-import * as Yup from "yup";
-import { Formik, Form } from "formik";
+import React from 'react';
+import * as Yup from 'yup';
+import { Formik, Form } from 'formik';
 
-import FormikControl from "./FormikControl"
-import Countries from "../Database/Countries.json"
+import { Container, Grid, Typography } from '@mui/material';
+import FormikControl from './FormikControl';
+import Countries from '../Database/Countries.json';
 
-import { Container, Grid, Typography } from "@mui/material";
 const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  phone: "",
-  description:'',
-  addressLine1:'',
-  city:'',
-  state:'',
-  country:'',
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  description: '',
+  addressLine1: '',
+  city: '',
+  state: '',
+  country: '',
   arrivealDate: '',
   departureDate: '',
-  termsOfService: false
+  termsOfService: false,
 
-  
 };
 const validationSchema = Yup.object({
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
-  email: Yup.string().required("Inavlid Email").required("Email is Required"),
-  phone:Yup.number().required('Required'),
-  description:Yup.string().required('Required'),
-  addressLine1:Yup.string().required('Required'),
-  city:Yup.string().required('Required'),
-  state:Yup.string().required('Required'),
-  country:Yup.string().required('Required'),
+  firstName: Yup.string().required('Required'),
+  lastName: Yup.string().required('Required'),
+  email: Yup.string().required('Inavlid Email').required('Email is Required'),
+  phone: Yup.number().required('Required'),
+  description: Yup.string().required('Required'),
+  addressLine1: Yup.string().required('Required'),
+  city: Yup.string().required('Required'),
+  state: Yup.string().required('Required'),
+  country: Yup.string().required('Required'),
   arrivealDate: Yup.date()
     .required('Required'),
   departureDate: Yup.date()
     .required('Required'),
-    termsOfService: Yup.boolean()
+  termsOfService: Yup.boolean()
     .oneOf([true], 'The terms and conditions must be accepted.')
     .required('The terms and conditions must be accepted.'),
 });
@@ -44,10 +43,10 @@ const validationSchema = Yup.object({
 const onSubmit = (values) => {
   console.log(values);
 };
-const App = () => {
+function Registration() {
   return (
     <Grid container>
-     
+
       <Grid item xs={12}>
         <Container maxWidth="sm">
           <div>
@@ -103,7 +102,7 @@ const App = () => {
                       control="textarea"
                       name="description"
                       label="About "
-                      
+
                     />
                   </Grid>
 
@@ -116,43 +115,41 @@ const App = () => {
                       control="input"
                       name="addressLine1"
                       label="AddressLine 1 "
-                      
-                    />
-                  </Grid>
 
-                
-                  <Grid item xs={6}>
-                    <FormikControl
-                       control="input"
-                       name="city"
-                       label="city"
-                      
                     />
                   </Grid>
 
                   <Grid item xs={6}>
                     <FormikControl
-                       control="input"
-                       name="state"
-                       label="State"
-                      
+                      control="input"
+                      name="city"
+                      label="city"
+
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <FormikControl
+                      control="input"
+                      name="state"
+                      label="State"
+
                     />
                   </Grid>
 
                   <Grid item xs={12}>
                     <FormikControl
-                       control="select"
-                       name="country"
-                       label="country"
-                       options={Countries}
-                      
+                      control="select"
+                      name="country"
+                      label="country"
+                      options={Countries}
+
                     />
                   </Grid>
-
 
                   <Grid item xs={12}>
                     <Typography>
-                      Booking 
+                      Booking
                     </Typography>
                   </Grid>
 
@@ -166,7 +163,7 @@ const App = () => {
 
                   <Grid item xs={6}>
                     <FormikControl
-                     control="date"
+                      control="date"
                       name="departureDate"
                       label="Departure Date"
                     />
@@ -174,7 +171,7 @@ const App = () => {
 
                   <Grid item xs={12}>
                     <FormikControl
-                    control='checkbox'
+                      control="checkbox"
                       name="termsOfService"
                       legend="Terms Of Service"
                       label="I agree to term and service"
@@ -182,13 +179,11 @@ const App = () => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <button type='submit'>
+                    <button type="submit">
                       Submit Form
                     </button>
                   </Grid>
 
-
-                  
                 </Grid>
               </Form>
             </Formik>
@@ -197,6 +192,6 @@ const App = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
-export default App;
+export default Registration;
